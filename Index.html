@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="theme-color" content="#0B2D4D" />
+  <title>LA RÈGLE DES 60 MINUTES — Suivi de Discipline & Progression</title>
+  <style>
+    /* =========================================================================
+       RESET & VARIABLES DE CHARTE GRAPHIQUE (BLEU NUIT / OR CHAMPAGNE / CYAN)
+       100% AUTONOME — ZÉRO DÉPENDANCE EXTERNE
+       ========================================================================= */
+    :root {
+      --bg-abyss: #071F37;
+      --bg-navy: #0B2D4D;
+      --bg-royal: #123D66;
+      --card-bg: rgba(13, 46, 78, 0.88);
+      --card-bg-solid: #0F365B;
+      --input-bg: rgba(7, 29, 51, 0.85);
+      --gold-light: #F5DF9E;
+      --gold-main: #E6C068;
+      --gold-dark: #C59B38;
+      --cyan-light: #7DD3FC;
+      --cyan-main: #38BDF8;
+      --teal-glow: #2DD4BF;
+      --text-white: #FFFFFF;
+      --text-soft: #CBD5E1;
+      --text-muted: #94A3B8;
+      --border-cyan: rgba(56, 189, 248, 0.25);
+      --border-gold: rgba(230, 192, 104, 0.45);
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-abyss);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--text-white);
+      background: radial-gradient(circle at 85% 12%, #123D66 0%, #0B2D4D 48%, #071F37 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      line-height: 1.5;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Constellation de fond en SVG natif fixe */
+    .bg-constellation-layer {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.45;
+    }
+
+    .app-wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 0 28px;
+      }
+    }
+
+    /* =========================================================================
+       BANDEAU CONSEIL MOBILE (SAFARI / CHROME / WHATSAPP)
+       ========================================================================= */
+    .mobile-tip-banner {
+      background: linear-gradient(90deg, rgba(7, 31, 55, 0.96), rgba(18, 61, 102, 0.96));
+      border-bottom: 1px solid rgba(230, 192, 104, 0.35);
+      padding: 9px 14px;
+      font-size: 12px;
+      color: var(--text-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .mobile-tip-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mobile-tip-badge {
+      background: rgba(230, 192, 104, 0.16);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-main);
+      font-weight: 700;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .mobile-tip-close {
+      background: transparent;
+      border: 1px solid rgba(203, 213, 225, 0.25);
+      color: var(--text-soft);
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 11px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* =========================================================================
+       EN-TÊTE EXÉCUTIF & GLOBE FILAIRE CYAN
+       ========================================================================= */
+    .hero-header {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(7, 31, 55, 0.94) 0%, rgba(11, 45, 77, 0.9) 60%, rgba(18, 61, 102, 0.88) 100%);
+      border-bottom: 1px solid var(--border-cyan);
+      padding: 26px 0 18px;
+    }
+
+    .hero-globe-svg {
+      position: absolute;
+      right: -65px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 280px;
+      height: 280px;
+      pointer-events: none;
+      opacity: 0.34;
+    }
+
+    @media (min-width: 768px) {
+      .hero-globe-svg {
+        right: -20px;
+        width: 380px;
+        height: 380px;
+        opacity: 0.42;
+      }
+    }
+
+    .hero-top-row {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    @media (min-width: 960px) {
+      .hero-top-row {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cyan-light);
+    }
+
+    .gold-line {
+      height: 2px;
+      width: 220px;
+      max-width: 80%;
+      margin: 10px 0 12px;
+      background: linear-gradient(90deg, var(--gold-main) 0%, var(--gold-dark) 55%, transparent 100%);
+      border-radius: 2px;
+    }
+
+    .gold-line-sm {
+      height: 1.5px;
+      width: 130px;
+      margin: 8px 0 12px;
+      background: linear-gradient(90deg, var(--gold-main) 0%, var(--gold-dark) 55%, transparent 100%);
+    }
+
+    .hero-title {
+      font-size: 22px;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-white);
+      line-height: 1.25;
+    }
+
+    @media (min-width: 640px) {
+      .hero-title {
+        font-size: 30px;
+      }
+    }
+
+    .hero-title strong {
+      font-weight: 700;
+      color: var(--gold-main);
+    }
+
+    .hero-subtitle {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--text-soft);
+      letter-spacing: 0.03em;
+    }
+
+    .hero-subtitle span {
+      color: var(--cyan-light);
+      font-weight: 600;
+    }
+
+    /* Boutons d'action rapides header */
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* =========================================================================
+       BOUTONS & NAVIGATION PAR ONGLETS
+       ========================================================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold-main) 0%, var(--gold-dark) 100%);
+      color: #061A2E;
+      font-weight: 700;
+      box-shadow: 0 4px 16px rgba(230, 192, 104, 0.25);
+    }
+
+    .btn-gold:hover {
+      filter: brightness(1.08);
+    }
+
+    .btn-outline-cyan {
+      background: rgba(11, 45, 77, 0.85);
+      border-color: rgba(56, 189, 248, 0.35);
+      color: var(--cyan-light);
+    }
+
+    .btn-outline-cyan:hover {
+      background: rgba(18, 61, 102, 0.95);
+      border-color: var(--cyan-main);
+    }
+
+    .btn-outline-gold {
+      background: rgba(11, 45, 77, 0.85);
+      border-color: var(--border-gold);
+      color: var(--gold-light);
+    }
+
+    .btn-outline-gold:hover {
+      background: rgba(230, 192, 104, 0.14);
+    }
+
+    .btn-ghost {
+      background: rgba(7, 31, 55, 0.7);
+      border-color: rgba(148, 163, 184, 0.25);
+      color: var(--text-soft);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--cyan-main);
+      color: var(--text-white);
+    }
+
+    .nav-tabs {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(56, 189, 248, 0.18);
+    }
+
+    .tab-btn {
+      flex: 1 1 auto;
+      min-width: 145px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      background: rgba(7, 31, 55, 0.75);
+      border: 1px solid rgba(56, 189, 248, 0.18);
+      color: var(--text-soft);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      border-color: rgba(56, 189, 248, 0.45);
+      color: var(--text-white);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(230, 192, 104, 0.22) 0%, rgba(56, 189, 248, 0.18) 100%);
+      border-color: var(--gold-main);
+      color: var(--gold-light);
+      box-shadow: 0 4px 18px rgba(4, 18, 34, 0.45);
+    }
+
+    /* =========================================================================
+       CONTENU PRINCIPAL & CARTES LUXE BLEU NUIT
+       ========================================================================= */
+    .main-content {
+      flex: 1;
+      padding: 26px 0 48px;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .lux-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-cyan);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: 0 12px 30px rgba(4, 18, 34, 0.55);
+    }
+
+    .lux-card-gold {
+      background: linear-gradient(145deg, rgba(15, 54, 91, 0.92) 0%, rgba(8, 34, 60, 0.95) 100%);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: 0 12px 32px rgba(4, 18, 34, 0.6);
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold-main);
+    }
+
+    .section-desc {
+      font-size: 12.5px;
+      color: var(--text-soft);
+      margin-top: 4px;
+    }
+
+    /* =========================================================================
+       GRILLES RESPONSIVES
+       ========================================================================= */
+    .stack-lg > * + * { margin-top: 22px; }
+    .stack-md > * + * { margin-top: 14px; }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .kpi-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .kpi-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+
+    .kpi-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-cyan);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .kpi-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--cyan-light);
+    }
+
+    .kpi-label.gold {
+      color: var(--gold-main);
+    }
+
+    .kpi-value {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-top: 8px;
+      color: var(--text-white);
+    }
+
+    .kpi-value.cyan { color: var(--cyan-main); }
+    .kpi-value.gold { color: var(--gold-main); }
+
+    .kpi-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .two-col-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 960px) {
+      .two-col-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .dashboard-charts-grid {
+        grid-template-columns: 1.35fr 1fr;
+      }
+    }
+
+    /* =========================================================================
+       BANDEAU CAP À 1 AN (DASHBOARD)
+       ========================================================================= */
+    .cap-banner {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    @media (min-width: 768px) {
+      .cap-banner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .cap-quote {
+      font-size: 15px;
+      font-style: italic;
+      color: var(--text-white);
+      margin-top: 6px;
+    }
+
+    /* =========================================================================
+       HEATMAP ANNUELLE 408 JOURS (CSS GRID PURE)
+       ========================================================================= */
+    .heatmap-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .heatmap-legend {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .legend-box {
+      width: 13px;
+      height: 13px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    .heatmap-scroll {
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .heatmap-grid {
+      display: grid;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(7, 13px);
+      gap: 4px;
+      min-width: 820px;
+    }
+
+    .heat-cell {
+      width: 13px;
+      height: 13px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: transform 0.15s ease, outline 0.15s ease;
+    }
+
+    .heat-cell:hover {
+      transform: scale(1.35);
+      outline: 1.5px solid var(--gold-main);
+      z-index: 5;
+    }
+
+    .heat-0 { background: rgba(7, 29, 51, 0.9); border: 1px solid rgba(56, 189, 248, 0.2); }
+    .heat-1 { background: rgba(45, 212, 191, 0.35); }
+    .heat-2 { background: rgba(56, 189, 248, 0.75); }
+    .heat-3 { background: rgba(230, 192, 104, 0.82); }
+    .heat-4 { background: #F5DF9E; box-shadow: 0 0 7px rgba(230, 192, 104, 0.85); }
+
+    /* =========================================================================
+       BARRES DE PROGRESSION DES 12 ACTIONS (DASHBOARD)
+       ========================================================================= */
+    .action-stat-list {
+      max-height: 310px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .action-stat-row {
+      margin-bottom: 11px;
+    }
+
+    .action-stat-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      margin-bottom: 4px;
+      gap: 8px;
+    }
+
+    .action-stat-name {
+      color: var(--text-soft);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .action-stat-name span {
+      color: var(--cyan-main);
+      font-weight: 700;
+      margin-right: 5px;
+    }
+
+    .action-stat-val {
+      color: var(--gold-light);
+      font-weight: 700;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(7, 29, 51, 0.95);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan-main), var(--gold-main));
+      border-radius: 999px;
+      transition: width 0.35s ease;
+    }
+
+    /* =========================================================================
+       ONGLET 2 : SUIVI QUOTIDIEN & JOURNAL
+       ========================================================================= */
+    .date-toolbar {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    @media (min-width: 960px) {
+      .date-toolbar {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .date-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .lux-input, .lux-select, .lux-textarea {
+      background: var(--input-bg);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      color: var(--text-white);
+      border-radius: 10px;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .lux-input, .lux-select {
+      padding: 9px 12px;
+    }
+
+    .lux-textarea {
+      width: 100%;
+      padding: 12px 14px;
+      resize: vertical;
+      line-height: 1.55;
+    }
+
+    .lux-input:focus, .lux-select:focus, .lux-textarea:focus {
+      outline: none;
+      border-color: var(--gold-main);
+      box-shadow: 0 0 0 3px rgba(230, 192, 104, 0.16);
+    }
+
+    .lux-textarea::placeholder {
+      color: rgba(148, 163, 184, 0.55);
+    }
+
+    /* Jauge circulaire SVG du jour */
+    .score-box {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(7, 29, 51, 0.85);
+      border: 1px solid var(--border-gold);
+      border-radius: 14px;
+      padding: 12px 18px;
+    }
+
+    .gauge-wrap {
+      position: relative;
+      width: 68px;
+      height: 68px;
+      flex-shrink: 0;
+    }
+
+    .gauge-center-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+
+    .status-pill {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: rgba(15, 54, 91, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      color: var(--text-soft);
+    }
+
+    .status-pill.perfect {
+      background: rgba(230, 192, 104, 0.2);
+      border-color: var(--gold-main);
+      color: var(--gold-light);
+    }
+
+    .status-pill.good {
+      background: rgba(56, 189, 248, 0.18);
+      border-color: var(--cyan-main);
+      color: var(--cyan-light);
+    }
+
+    /* Cases à cocher interactives */
+    .checklist-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .checklist-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .action-check-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 13px 14px;
+      border-radius: 12px;
+      background: rgba(7, 29, 51, 0.72);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      user-select: none;
+    }
+
+    .action-check-card:hover {
+      border-color: rgba(56, 189, 248, 0.5);
+    }
+
+    .action-check-card.checked {
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.15) 0%, rgba(230, 192, 104, 0.12) 100%);
+      border-color: var(--gold-main);
+    }
+
+    .custom-checkbox {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 1.5px solid rgba(56, 189, 248, 0.55);
+      background: rgba(7, 29, 51, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      transition: all 0.18s ease;
+    }
+
+    .action-check-card.checked .custom-checkbox {
+      background: linear-gradient(135deg, var(--gold-main), var(--gold-dark));
+      border-color: var(--gold-light);
+      color: #061A2E;
+      box-shadow: 0 0 10px rgba(230, 192, 104, 0.5);
+    }
+
+    .action-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .action-title-text {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-white);
+    }
+
+    .action-check-card.checked .action-title-text {
+      color: var(--gold-light);
+    }
+
+    .action-num {
+      color: var(--cyan-main);
+      font-weight: 700;
+      margin-right: 5px;
+    }
+
+    .action-tag {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 5px;
+      background: rgba(11, 45, 77, 0.95);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      color: var(--cyan-light);
+    }
+
+    .action-desc-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyan-light);
+      margin-bottom: 6px;
+    }
+
+    .field-label.gold {
+      color: var(--gold-main);
+    }
+
+    /* =========================================================================
+       ONGLET 3 : PLAN D'ACTION & CAP À 1 AN
+       ========================================================================= */
+    .plan-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .plan-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-white);
+      margin-top: 4px;
+    }
+
+    /* =========================================================================
+       ONGLET 4 : 10 PILIERS, 5 RÈGLES D'OR & EXPORT/IMPORT
+       ========================================================================= */
+    .pillar-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pillar-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(230, 192, 104, 0.22), rgba(56, 189, 248, 0.2));
+      border: 1px solid var(--gold-main);
+      color: var(--gold-main);
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pillar-title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-white);
+    }
+
+    .pillar-body {
+      font-size: 13px;
+      color: var(--text-soft);
+      line-height: 1.55;
+    }
+
+    .pillar-actions {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(56, 189, 248, 0.16);
+      font-size: 12.5px;
+      color: var(--text-soft);
+    }
+
+    .golden-rules-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    @media (min-width: 640px) {
+      .golden-rules-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .golden-rules-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+
+    .golden-rule-box {
+      background: rgba(7, 29, 51, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    /* =========================================================================
+       TOAST NOTIFICATION & FOOTER
+       ========================================================================= */
+    .toast-container {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast-msg {
+      background: rgba(7, 29, 51, 0.96);
+      border: 1px solid var(--gold-main);
+      color: var(--gold-light);
+      padding: 11px 16px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .app-footer {
+      border-top: 1px solid rgba(56, 189, 248, 0.18);
+      padding: 20px 16px;
+      text-align: center;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      background: rgba(7, 29, 51, 0.6);
+    }
+
+    /* Scrollbars soignées */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #071F37; }
+    ::-webkit-scrollbar-thumb { background: #195185; border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold-main); }
+  </style>
+</head>
+<body>
+
+  <!-- Constellation lumineuse cyan en arrière-plan (SVG natif 100% autonome) -->
+  <svg class="bg-constellation-layer" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <g stroke="#38BDF8" stroke-width="0.6" stroke-opacity="0.25" fill="none">
+      <polyline points="80,140 210,95 340,180 260,310 110,270 80,140" />
+      <polyline points="210,95 450,60 580,145 340,180" />
+      <polyline points="980,110 1140,75 1290,165 1210,290 1040,240 980,110" />
+      <polyline points="120,640 290,590 420,710 240,810 120,640" />
+      <polyline points="920,620 1110,560 1310,670 1180,820 960,760 920,620" />
+    </g>
+    <g fill="#2DD4BF" fill-opacity="0.55">
+      <circle cx="80" cy="140" r="2.2" /><circle cx="210" cy="95" r="2.8" /><circle cx="340" cy="180" r="2" />
+      <circle cx="260" cy="310" r="2.5" /><circle cx="110" cy="270" r="1.8" /><circle cx="450" cy="60" r="2.2" />
+      <circle cx="580" cy="145" r="2.5" /><circle cx="980" cy="110" r="2.4" /><circle cx="1140" cy="75" r="3" />
+      <circle cx="1290" cy="165" r="2" /><circle cx="1210" cy="290" r="2.6" /><circle cx="1040" cy="240" r="2" />
+      <circle cx="120" cy="640" r="2.2" /><circle cx="290" cy="590" r="2.8" /><circle cx="420" cy="710" r="2" />
+      <circle cx="920" cy="620" r="2.5" /><circle cx="1110" cy="560" r="3" /><circle cx="1310" cy="670" r="2.2" />
+    </g>
+    <g fill="#E6C068" fill-opacity="0.65">
+      <circle cx="165" cy="195" r="2" /><circle cx="1090" cy="155" r="2.4" /><circle cx="335" cy="665" r="2.2" />
+    </g>
+  </svg>
+
+  <!-- Conteneur de notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <div class="app-wrapper">
+    <!-- Bandeau d'information sauvegarde mobile (WhatsApp / Safari / Chrome) -->
+    <div id="mobile-tip-banner" class="mobile-tip-banner">
+      <div class="mobile-tip-content">
+        <span class="mobile-tip-badge">Astuce Mobile</span>
+        <span>Ouvrez ce fichier directement dans <strong>Safari</strong> ou <strong>Chrome</strong> (via le bouton Partager / Ouvrir dans le navigateur) pour conserver vos coches et écrits durablement.</span>
+      </div>
+      <button type="button" class="mobile-tip-close" onclick="document.getElementById('mobile-tip-banner').style.display='none'">Masquer</button>
+    </div>
+
+    <!-- =================================================================== -->
+    <!-- EN-TÊTE EXÉCUTIF                                                    -->
+    <!-- =================================================================== -->
+    <header class="hero-header">
+      <!-- Globe terrestre filaire géométrique cyan en SVG natif -->
+      <svg class="hero-globe-svg" viewBox="0 0 400 400" fill="none" aria-hidden="true">
+        <circle cx="200" cy="200" r="176" stroke="#38BDF8" stroke-width="1.2" stroke-dasharray="4 3" />
+        <circle cx="200" cy="200" r="170" stroke="#2DD4BF" stroke-width="0.7" opacity="0.6" />
+        <ellipse cx="200" cy="200" rx="136" ry="176" stroke="#38BDF8" stroke-width="0.9" />
+        <ellipse cx="200" cy="200" rx="92" ry="176" stroke="#38BDF8" stroke-width="0.9" />
+        <ellipse cx="200" cy="200" rx="46" ry="176" stroke="#38BDF8" stroke-width="0.9" />
+        <ellipse cx="200" cy="200" rx="176" ry="126" stroke="#38BDF8" stroke-width="0.8" />
+        <ellipse cx="200" cy="200" rx="176" ry="76" stroke="#38BDF8" stroke-width="0.8" />
+        <ellipse cx="200" cy="200" rx="176" ry="26" stroke="#38BDF8" stroke-width="0.8" />
+        <!-- Méridien central & équateur lumineux -->
+        <line x1="200" y1="24" x2="200" y2="376" stroke="#2DD4BF" stroke-width="0.9" />
+        <line x1="24" y1="200" x2="376" y2="200" stroke="#2DD4BF" stroke-width="0.9" />
+        <!-- Points de connexion dorés et cyan sur le globe -->
+        <circle cx="115" cy="118" r="3.5" fill="#2DD4BF" />
+        <circle cx="158" cy="84" r="3" fill="#E6C068" />
+        <circle cx="96" cy="196" r="3.5" fill="#38BDF8" />
+        <circle cx="142" cy="252" r="3" fill="#2DD4BF" />
+        <circle cx="188" cy="148" r="4" fill="#E6C068" />
+        <polyline points="115,118 158,84 188,148 96,196 142,252" stroke="#E6C068" stroke-width="0.9" opacity="0.75" />
+      </svg>
+
+      <div class="container">
+        <div class="hero-top-row">
+          <div>
+            <div class="eyebrow">THE MILLIONAIRE LIBRARY • EXÉCUTION &amp; DISCIPLINE</div>
+            <div class="gold-line"></div>
+            <h1 class="hero-title">LA RÈGLE DES <strong>60 MINUTES</strong></h1>
+            <p class="hero-subtitle">
+              Suivi de Discipline &amp; Progression — <span>19 Novembre 2026 au 31 Décembre 2027</span> (408 jours)
+            </p>
+          </div>
+
+          <div class="header-actions">
+            <button type="button" class="btn btn-outline-cyan" onclick="exportCSV()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+              Export CSV
+            </button>
+            <button type="button" class="btn btn-outline-gold" onclick="exportJSON()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Sauvegarde JSON
+            </button>
+          </div>
+        </div>
+
+        <!-- Navigation par Onglets -->
+        <nav class="nav-tabs" aria-label="Navigation principale">
+          <button type="button" class="tab-btn active" id="tab-btn-dashboard" onclick="switchTab('dashboard')">
+            1. Tableau de Bord
+          </button>
+          <button type="button" class="tab-btn" id="tab-btn-daily" onclick="switchTab('daily')">
+            2. Suivi Quotidien &amp; Journal
+          </button>
+          <button type="button" class="tab-btn" id="tab-btn-plan" onclick="switchTab('plan')">
+            3. Plan d'Action &amp; Cap à 1 An
+          </button>
+          <button type="button" class="tab-btn" id="tab-btn-synthesis" onclick="switchTab('synthesis')">
+            4. Les 10 Piliers &amp; Export
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- =================================================================== -->
+    <!-- CONTENU PRINCIPAL                                                   -->
+    <!-- =================================================================== -->
+    <main class="main-content">
+      <div class="container">
+
+        <!-- =============================================================== -->
+        <!-- ONGLET 1 : TABLEAU DE BORD                                      -->
+        <!-- =============================================================== -->
+        <section id="tab-dashboard" class="tab-panel active stack-lg">
+          
+          <!-- Bandeau Cap à 1 An -->
+          <div class="lux-card-gold cap-banner">
+            <div>
+              <div class="eyebrow" style="color: var(--gold-main);">MA DESTINATION CONCRÈTE À 1 AN</div>
+              <p id="dashboard-cap-preview" class="cap-quote">
+                « Définissez votre destination concrète à 1 an dans l'onglet Plan d'Action pour l'afficher ici en permanence. »
+              </p>
+            </div>
+            <button type="button" class="btn btn-gold" onclick="switchTab('daily')">
+              Compléter ma journée →
+            </button>
+          </div>
+
+          <!-- 6 Cartes KPI -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-label">Jours Actifs</div>
+              <div id="kpi-active-days" class="kpi-value cyan">0</div>
+              <div class="kpi-sub">Sur 408 jours totaux</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label gold">Discipline Globale</div>
+              <div id="kpi-global-rate" class="kpi-value gold">0.0%</div>
+              <div class="kpi-sub">Moyenne jours actifs</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label gold">Jours Parfaits</div>
+              <div id="kpi-perfect-days" class="kpi-value">0</div>
+              <div class="kpi-sub">Score maximal 12 / 12</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Meilleure Série</div>
+              <div id="kpi-best-streak" class="kpi-value cyan">0 j</div>
+              <div class="kpi-sub">Consécutifs (≥ 6/12)</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Série Actuelle</div>
+              <div id="kpi-current-streak" class="kpi-value cyan">0 j</div>
+              <div class="kpi-sub">En cours (≥ 6/12)</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label gold">Heures Investies</div>
+              <div id="kpi-hours" class="kpi-value gold">0.0 h</div>
+              <div class="kpi-sub">Temps intentionnel cumulé</div>
+            </div>
+          </div>
+
+          <!-- Calendrier Heatmap Annuel (408 Jours) -->
+          <div class="lux-card">
+            <div class="heatmap-header">
+              <div>
+                <h2 class="section-title">Matrice de Régularité Quotidienne (19/11/2026 – 31/12/2027)</h2>
+                <p class="section-desc">Chaque case représente une journée. Touchez ou cliquez sur une case pour ouvrir sa fiche d'action.</p>
+              </div>
+              <div class="heatmap-legend">
+                <span>0/12</span>
+                <span class="legend-box heat-0" title="0 action"></span>
+                <span class="legend-box heat-1" title="1 à 3 actions"></span>
+                <span class="legend-box heat-2" title="4 à 7 actions"></span>
+                <span class="legend-box heat-3" title="8 à 11 actions"></span>
+                <span class="legend-box heat-4" title="12/12 Parfait"></span>
+                <span>12/12</span>
+              </div>
+            </div>
+            <div class="heatmap-scroll">
+              <div id="heatmap-grid" class="heatmap-grid"></div>
+            </div>
+          </div>
+
+          <!-- Graphique Mensuel SVG Natif + Barres de progression des 12 actions -->
+          <div class="two-col-grid dashboard-charts-grid">
+            
+            <!-- Graphique SVG Natif 14 Mois -->
+            <div class="lux-card">
+              <h2 class="section-title">Progression Mensuelle (Nov. 2026 – Déc. 2027)</h2>
+              <div class="gold-line-sm"></div>
+              <p class="section-desc" style="margin-bottom: 14px;">Taux moyen de discipline (%) sur les 14 mois du parcours.</p>
+              <div style="width: 100%; overflow-x: auto;">
+                <svg id="monthly-svg-chart" viewBox="0 0 640 250" style="width: 100%; min-width: 480px; height: auto; display: block;"></svg>
+              </div>
+            </div>
+
+            <!-- Barres horizontales des 12 actions -->
+            <div class="lux-card">
+              <h2 class="section-title">Régularité par Action Quotidienne</h2>
+              <div class="gold-line-sm"></div>
+              <p class="section-desc" style="margin-bottom: 14px;">Taux d'exécution de chacune des 12 habitudes sur vos jours actifs.</p>
+              <div id="actions-breakdown" class="action-stat-list"></div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- ONGLET 2 : SUIVI QUOTIDIEN & JOURNAL                            -->
+        <!-- =============================================================== -->
+        <section id="tab-daily" class="tab-panel stack-lg">
+          
+          <!-- Barre de sélection de date + Jauge circulaire SVG -->
+          <div class="lux-card date-toolbar">
+            <div>
+              <div class="eyebrow">SÉLECTION DE LA JOURNÉE</div>
+              <div class="date-controls">
+                <button type="button" class="btn btn-ghost" onclick="changeDateBy(-1)" title="Jour précédent">◀ Préc.</button>
+                <input type="date" id="daily-date-picker" class="lux-input" min="2026-11-19" max="2027-12-31" onchange="selectDate(this.value)" />
+                <button type="button" class="btn btn-ghost" onclick="changeDateBy(1)" title="Jour suivant">Suiv. ▶</button>
+                <button type="button" class="btn btn-outline-cyan" onclick="goToToday()">Aujourd'hui</button>
+                <select id="month-jump-select" class="lux-select" onchange="jumpToMonth(this.value)">
+                  <option value="">Aller au mois...</option>
+                </select>
+              </div>
+              <p id="daily-date-human" style="margin-top: 10px; font-size: 13.5px; color: var(--gold-light); font-weight: 600;"></p>
+            </div>
+
+            <!-- Jauge circulaire SVG du score du jour -->
+            <div class="score-box">
+              <div class="gauge-wrap">
+                <svg width="68" height="68" viewBox="0 0 68 68">
+                  <circle cx="34" cy="34" r="28" fill="none" stroke="rgba(56, 189, 248, 0.18)" stroke-width="6" />
+                  <circle id="daily-gauge-circle" cx="34" cy="34" r="28" fill="none" stroke="#E6C068" stroke-width="6" stroke-linecap="round"
+                    stroke-dasharray="175.93" stroke-dashoffset="175.93" transform="rotate(-90 34 34)" style="transition: stroke-dashoffset 0.35s ease;" />
+                </svg>
+                <div id="daily-gauge-pct" class="gauge-center-text">0%</div>
+              </div>
+              <div>
+                <div class="kpi-label">SCORE DU JOUR</div>
+                <div id="daily-score-count" style="font-size: 22px; font-weight: 700; color: var(--white); margin-top: 2px;">0 / 12</div>
+                <span id="daily-status-badge" class="status-pill">À faire</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grille 2 colonnes : 12 Cases Cliquables + 4 Espaces d'écriture -->
+          <div class="two-col-grid">
+            
+            <!-- Colonne 1 : Les 12 Actions Cliquables -->
+            <div class="lux-card">
+              <div class="checklist-header">
+                <div>
+                  <h2 class="section-title">Les 12 Actions Quotidiennes</h2>
+                  <div class="gold-line-sm"></div>
+                </div>
+                <div class="checklist-actions">
+                  <button type="button" class="btn btn-outline-gold" onclick="toggleAllDailyActions(true)">Tout cocher</button>
+                  <button type="button" class="btn btn-ghost" onclick="toggleAllDailyActions(false)">Effacer</button>
+                </div>
+              </div>
+              <div id="daily-actions-list" class="stack-md"></div>
+            </div>
+
+            <!-- Colonne 2 : 4 Espaces d'Écriture Quotidiens -->
+            <div class="lux-card stack-md">
+              <div>
+                <h2 class="section-title">Carnet de Bord &amp; Réflexion du Jour</h2>
+                <div class="gold-line-sm"></div>
+                <p class="section-desc">« Une vie enregistrée est une vie qui continue de s'améliorer. » Sauvegarde automatique.</p>
+              </div>
+
+              <div>
+                <label class="field-label" for="journal-morning">1. Mes 3 gratitudes &amp; intention du matin</label>
+                <textarea id="journal-morning" class="lux-textarea" rows="3" oninput="saveJournalField('morning', this.value)"
+                  placeholder="Je suis reconnaissant pour : 1... 2... 3... | Mon intention aujourd'hui est de..."></textarea>
+              </div>
+
+              <div>
+                <label class="field-label gold" for="journal-cap">2. Action clé du jour vers mon objectif à 1 an</label>
+                <textarea id="journal-cap" class="lux-textarea" rows="3" oninput="saveJournalField('cap', this.value)"
+                  placeholder="Quelle est l'action concrète d'aujourd'hui qui me rapproche de ma destination à 1 an ?"></textarea>
+              </div>
+
+              <div>
+                <label class="field-label" for="journal-evening1">3. Bilan du soir : Ce que j'ai appris &amp; accompli</label>
+                <textarea id="journal-evening1" class="lux-textarea" rows="3" oninput="saveJournalField('evening1', this.value)"
+                  placeholder="Mes apprentissages du jour et mes petites victoires validées..."></textarea>
+              </div>
+
+              <div>
+                <label class="field-label gold" for="journal-evening2">4. Bilan du soir : Difficulté rencontrée &amp; ajustement pour demain</label>
+                <textarea id="journal-evening2" class="lux-textarea" rows="3" oninput="saveJournalField('evening2', this.value)"
+                  placeholder="Quelle friction ai-je rencontrée et que ferai-je différemment demain ?"></textarea>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- ONGLET 3 : PLAN D'ACTION & CAP À 1 AN                           -->
+        <!-- =============================================================== -->
+        <section id="tab-plan" class="tab-panel stack-lg">
+          <div class="lux-card-gold cap-banner">
+            <div>
+              <div class="eyebrow" style="color: var(--gold-main);">ARCHITECTURE PERSONNELLE</div>
+              <h2 class="hero-title" style="font-size: 20px; margin-top: 4px;">Plan d'Action Fondateur &amp; Cap à 1 An</h2>
+              <div class="gold-line-sm"></div>
+              <p class="section-desc">Remplissez vos engagements issus de la vidéo et cochez chaque étape une fois définie.</p>
+            </div>
+            <div style="text-align: right;">
+              <div class="kpi-label">PRÉPARATION</div>
+              <div id="plan-completion-badge" class="kpi-value gold" style="margin-top: 2px;">0 / 10</div>
+            </div>
+          </div>
+
+          <div id="plan-items-container" class="two-col-grid"></div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- ONGLET 4 : LES 10 PILIERS, 5 RÈGLES D'OR & EXPORT/IMPORT        -->
+        <!-- =============================================================== -->
+        <section id="tab-synthesis" class="tab-panel stack-lg">
+          
+          <!-- Module Sauvegarde / Restauration / Export -->
+          <div class="lux-card-gold stack-md">
+            <div>
+              <div class="eyebrow" style="color: var(--gold-main);">GESTION DES DONNÉES &amp; PORTABILITÉ</div>
+              <h2 class="section-title" style="margin-top: 4px;">Exporter ou Transférer vos Données (Excel / Mobile / PC)</h2>
+              <div class="gold-line-sm"></div>
+              <p class="section-desc">
+                Vos données sont sauvegardées localement sur cet appareil. Utilisez les outils ci-dessous pour exporter vers Excel (CSV) ou transférer votre progression d'un appareil à un autre via JSON.
+              </p>
+            </div>
+
+            <div class="header-actions">
+              <button type="button" class="btn btn-gold" onclick="exportCSV()">Télécharger Export Excel (.CSV)</button>
+              <button type="button" class="btn btn-outline-cyan" onclick="exportJSON()">Télécharger Sauvegarde (.JSON)</button>
+              <button type="button" class="btn btn-outline-gold" onclick="copyJSONToClipboard()">Copier le code JSON</button>
+              <label class="btn btn-ghost" style="cursor: pointer;">
+                Importer fichier .JSON
+                <input type="file" accept=".json" style="display: none;" onchange="importJSONFile(event)" />
+              </label>
+            </div>
+
+            <div style="margin-top: 10px;">
+              <label class="field-label" for="json-paste-area">Restauration rapide par copier-coller (idéal sur mobile)</label>
+              <textarea id="json-paste-area" class="lux-textarea" rows="3" placeholder="Collez ici le texte d'une sauvegarde JSON puis cliquez sur Restaurer..."></textarea>
+              <div style="margin-top: 8px;">
+                <button type="button" class="btn btn-outline-cyan" onclick="restoreJSONFromText()">Restaurer depuis le texte collé</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Les 5 Règles d'Or Finales -->
+          <div class="lux-card">
+            <div class="eyebrow">SYNTHÈSE EXÉCUTIVE</div>
+            <h2 class="section-title" style="margin-top: 4px;">Les 5 Règles d'Or pour Transformer l'Effort en Identité</h2>
+            <div class="gold-line-sm"></div>
+            <div class="golden-rules-grid">
+              <div class="golden-rule-box">
+                <div style="color: var(--gold-main); font-weight: 700; font-size: 16px;">01.</div>
+                <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; margin-top: 4px;">Une seule habitude</div>
+                <p class="section-desc" style="margin-top: 6px;">La précision bat la dispersion. Une action tenue chaque jour vaut plus que 10 tentatives abandonnées.</p>
+              </div>
+              <div class="golden-rule-box">
+                <div style="color: var(--gold-main); font-weight: 700; font-size: 16px;">02.</div>
+                <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; margin-top: 4px;">Petites actions répétées</div>
+                <p class="section-desc" style="margin-top: 6px;">Agir même sans envie. La constance transforme l'effort quotidien en une nouvelle identité.</p>
+              </div>
+              <div class="golden-rule-box">
+                <div style="color: var(--gold-main); font-weight: 700; font-size: 16px;">03.</div>
+                <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; margin-top: 4px;">Couper les distractions</div>
+                <p class="section-desc" style="margin-top: 6px;">Votre concentration est votre monnaie la plus précieuse. Protégez votre créneau sacré.</p>
+              </div>
+              <div class="golden-rule-box">
+                <div style="color: var(--gold-main); font-weight: 700; font-size: 16px;">04.</div>
+                <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; margin-top: 4px;">Prendre soin de sa santé</div>
+                <p class="section-desc" style="margin-top: 6px;">Mouvement, sommeil et hydratation sont le moteur de toute discipline durable.</p>
+              </div>
+              <div class="golden-rule-box">
+                <div style="color: var(--gold-main); font-weight: 700; font-size: 16px;">05.</div>
+                <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; margin-top: 4px;">Tracer ses victoires</div>
+                <p class="section-desc" style="margin-top: 6px;">Ce que vous mesurez s'améliore. La confiance naît des preuves accumulées jour après jour.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Les 10 Piliers de la Transcription -->
+          <div>
+            <div class="eyebrow">MÉTHODOLOGIE COMPLÈTE</div>
+            <h2 class="section-title" style="margin-top: 4px;">Les 10 Piliers de la Règle des 60 Minutes</h2>
+            <div class="gold-line-sm"></div>
+            <div id="pillars-grid" class="two-col-grid" style="margin-top: 14px;"></div>
+          </div>
+
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Pied de page -->
+    <footer class="app-footer">
+      <div style="letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-soft); font-weight: 600;">
+        LA RÈGLE DES 60 MINUTES • DISCIPLINE, AUTOÉDUCATION &amp; CONSTANCE
+      </div>
+      <div style="margin-top: 4px;">
+        Application 100 % autonome (hors-ligne &amp; mobile) — Période du 19/11/2026 au 31/12/2027 (408 jours).
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // =========================================================================
+    // CONFIGURATION & RÉFÉRENTIEL (19/11/2026 AU 31/12/2027)
+    // =========================================================================
+    const START_DATE_STR = '2026-11-19';
+    const END_DATE_STR = '2027-12-31';
+    const STORAGE_KEY = 'regle_60_minutes_standalone_v1';
+
+    const DAILY_ACTIONS = [
+      { id: 'a1', title: 'Réveil sans téléphone (30 min pour soi)', tag: 'Pilier 1', desc: 'Rester injoignable, ne pas consulter ses écrans ni notifications au réveil.' },
+      { id: 'a2', title: 'Lire 10 pages d’un livre', tag: 'Pilier 1 & 4', desc: 'Nourrir son esprit dès le matin avec un ouvrage de référence.' },
+      { id: 'a3', title: 'Écrire 3 gratitudes', tag: 'Pilier 1', desc: 'Ancrer un état d’esprit de construction plutôt que de réaction.' },
+      { id: 'a4', title: 'Boire un grand verre d’eau au réveil', tag: 'Pilier 1 & 7', desc: 'Hydrater immédiatement le corps et relancer l’énergie cérébrale.' },
+      { id: 'a5', title: 'Planifier la journée', tag: 'Pilier 1 & 2', desc: 'Définir ses priorités avant que le monde ne sollicite votre attention.' },
+      { id: 'a6', title: 'Créneau 1h bloqué & protégé (Dire NON)', tag: 'Pilier 2', desc: 'Défendre fermement son heure sacrée face aux urgences des autres.' },
+      { id: 'a7', title: 'Relire sa destination à 1 an (Cap)', tag: 'Pilier 3', desc: 'Prendre 3 minutes avant d’agir pour vérifier son alignement.' },
+      { id: 'a8', title: 'Apprendre intentionnellement (Autoéducation)', tag: 'Pilier 4', desc: 'Consacrer du temps à développer une compétence à forte valeur.' },
+      { id: 'a9', title: 'Pratiquer concrètement (min. 20 min)', tag: 'Pilier 5', desc: 'Transformer la théorie en exécution réelle malgré l’imperfection.' },
+      { id: 'a10', title: 'Bouger son corps / Rituel physique', tag: 'Pilier 7', desc: 'Marche, sport, étirements ou respiration pour multiplier son énergie.' },
+      { id: 'a11', title: 'Avancer sur son projet (Heure silencieuse)', tag: 'Pilier 8', desc: 'Poser une brique quotidienne sur un actif qui vous appartient.' },
+      { id: 'a12', title: 'Bilan du soir (5 min) / Présence relationnelle', tag: 'Pilier 6 & 9', desc: 'Évaluer sa journée par écrit + 1h/sem de présence totale à un proche.' }
+    ];
+
+    const PLAN_SECTIONS = [
+      { id: 'p1', pillar: 'Règle d’Or n°1', title: 'Mon habitude n°1 prioritaire choisie dès maintenant', placeholder: 'Ex : Consacrer chaque matin de 6h30 à 7h30 à mon autoéducation et à mon projet personnel...' },
+      { id: 'p2', pillar: 'Pilier 1', title: 'Mon heure de réveil & heure jusqu’à laquelle je reste injoignable', placeholder: 'Ex : Réveil à 6h00 — Téléphone en mode avion et injoignable jusqu’à 8h30.' },
+      { id: 'p3', pillar: 'Pilier 2', title: 'Nom de mon créneau protégé de 1h & ma phrase pour dire NON', placeholder: 'Ex : Créneau « Heure Sacrée » — « Ce créneau m’appartient, je suis disponible à partir de 11h. »' },
+      { id: 'p4', pillar: 'Pilier 3', title: 'Ma destination concrète à 1 an (« Dans un an, je veux avoir accompli... »)', placeholder: 'Décrivez votre objectif précis, mesurable et daté à 12 mois...' },
+      { id: 'p5', pillar: 'Pilier 3', title: 'La compétence clé que je construis & mon « Pourquoi » profond', placeholder: 'Compétence clé : ... | Pourquoi cela compte profondément pour moi : ...' },
+      { id: 'p6', pillar: 'Pilier 4', title: 'Mes 3 livres choisis pour mon autoéducation', placeholder: '1. ...\n2. ...\n3. ...' },
+      { id: 'p7', pillar: 'Pilier 5', title: 'Mon exercice pratique quotidien (minimum 20 minutes / jour)', placeholder: 'Ex : Rédiger 500 mots, passer 3 appels commerciaux, développer une fonctionnalité...' },
+      { id: 'p8', pillar: 'Pilier 7', title: 'Mon rituel santé & mouvement (Mouvement, Sommeil, Hydratation)', placeholder: 'Ex : 30 min de marche rapide le matin, 7h30 de sommeil, 2L d’eau par jour.' },
+      { id: 'p9', pillar: 'Pilier 8', title: 'Mon projet personnel de l’heure silencieuse (260h à 365h / an)', placeholder: 'Décrivez l’actif, le business, le contenu ou la compétence monétisable que vous bâtissez...' },
+      { id: 'p10', pillar: 'Pilier 9 & 10', title: 'Personnes prioritaires (1h/sem sans écran) & engagement anti-abandon', placeholder: 'Proches prioritaires : ... | Règle d’or : Ne jamais laisser un jour raté devenir une semaine ratée.' }
+    ];
+
+    const TEN_PILLARS = [
+      { num: '01', title: 'Reprends la première heure', principle: 'Comment tu commences ta journée dicte comment tu vis ta vie. Au réveil, le cerveau est malléable : ne laisse pas le téléphone et le bruit extérieur te programmer.', actions: 'Rester injoignable, ne pas toucher au téléphone, prendre 30 min pour soi : lire 10 pages, écrire 3 gratitudes, boire un grand verre d’eau, bouger et planifier sa journée.' },
+      { num: '02', title: 'Protège ton heure comme un trésor', principle: 'Le temps perdu ne se récupère jamais. Les sollicitations extérieures volent tes heures de plus haute énergie au profit de choses urgentes mais non importantes.', actions: 'Bloquer chaque soir un créneau d’1h nommé dans son agenda et dire NON fermement sans s’excuser.' },
+      { num: '03', title: 'La direction avant l’action', principle: 'L’action sans direction mène à l’épuisement (courir sur un tapis de course). Quand le « Pourquoi » est fort, le « Comment » devient évident.', actions: 'Écrire une destination concrète à 1 an et prendre 3 minutes avant chaque session pour relire ce cap et aligner son action du jour.' },
+      { num: '04', title: 'Apprends pendant une heure, grandis toute une vie', principle: 'L’éducation formelle permet de gagner sa vie ; l’autoéducation intentionnelle permet de bâtir une fortune en compétences, sagesse et liberté.', actions: 'Préparer 3 livres sur des domaines clés (business, communication, santé, leadership, psychologie) et se former chaque jour.' },
+      { num: '05', title: 'Une heure de pratique vaut 10 heures de théorie', principle: 'La connaissance non appliquée est du divertissement déguisé en productivité. La confiance naît de l’exécution imparfaite et de la répétition.', actions: 'Réserver au moins 20 minutes dans son heure quotidienne pour pratiquer concrètement et appliquer dès le lendemain ce qui a été appris.' },
+      { num: '06', title: 'Réfléchis, affine, recommence', principle: 'Comme un avion qui corrige constamment sa trajectoire en vol, une vie enregistrée et évaluée sans jugement s’améliore en continu.', actions: 'Prendre 5 minutes chaque soir pour noter : ce qu’on a appris, accompli, ce qui a été difficile et ce qu’on fera différemment demain.' },
+      { num: '07', title: 'Une heure pour ta santé, une vie pour tes projets', principle: 'Ton corps est le moteur de tous tes rêves. Une heure de mouvement ne coûte pas de productivité, elle en rapporte deux ou trois en retour.', actions: 'Instaurer un rituel physique quotidien (marche, étirements, sport, respiration) et veiller au sommeil et à l’hydratation.' },
+      { num: '08', title: 'Construis une fortune dans l’heure silencieuse', principle: 'Les salaires font vivre, les profits changent les destins. 1h par jour représente 260h à 365h par an pour bâtir quelque chose qui t’appartient.', actions: 'Utiliser une heure calme (matin ou soir, à la place des écrans) pour développer un projet, une compétence monétisable ou un actif.' },
+      { num: '09', title: 'Des relations qui se construisent une heure à la fois', principle: 'La plus grande richesse réside dans des liens humains profonds et sincères, bâtis par une attention véritable.', actions: 'Offrir 1 heure par semaine de présence totale (téléphone posé, écoute authentique) à une personne importante.' },
+      { num: '10', title: 'Empile les heures, empile ton futur', principle: 'Chaque heure est une brique qui forge une nouvelle identité. La constance bat toujours la perfection.', actions: 'Commencer progressivement (10 min puis 15, 20, 30, 60 min) et appliquer la règle d’or : ne jamais laisser un jour raté devenir une semaine ratée.' }
+    ];
+
+    // =========================================================================
+    // ÉTAT DE L'APPLICATION & PERSISTANCE LOCALE
+    // =========================================================================
+    let appState = { days: {}, plan: {} };
+    let allDatesList = [];
+    let selectedDate = START_DATE_STR;
+
+    function generateAllDates() {
+      const list = [];
+      let curr = new Date(START_DATE_STR + 'T12:00:00');
+      const end = new Date(END_DATE_STR + 'T12:00:00');
+      while (curr <= end) {
+        list.push(curr.toISOString().split('T')[0]);
+        curr.setDate(curr.getDate() + 1);
+      }
+      return list;
+    }
+
+    function formatFrenchDate(isoStr) {
+      const d = new Date(isoStr + 'T12:00:00');
+      return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') {
+            appState.days = parsed.days || {};
+            appState.plan = parsed.plan || {};
+          }
+        }
+      } catch (e) {
+        console.warn('Stockage local indisponible:', e);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        console.warn('Impossible de sauvegarder dans localStorage:', e);
+      }
+    }
+
+    function getDayData(isoStr) {
+      if (!appState.days[isoStr]) {
+        appState.days[isoStr] = {
+          actions: {},
+          journal: { morning: '', cap: '', evening1: '', evening2: '' }
+        };
+      }
+      return appState.days[isoStr];
+    }
+
+    function getDayScore(isoStr) {
+      const day = appState.days[isoStr];
+      if (!day || !day.actions) return 0;
+      let count = 0;
+      for (const act of DAILY_ACTIONS) {
+        if (day.actions[act.id]) count++;
+      }
+      return count;
+    }
+
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      const el = document.createElement('div');
+      el.className = 'toast-msg';
+      el.innerHTML = `<span style="width:8px;height:8px;border-radius:50%;background:var(--gold-main);display:inline-block;"></span><span>${message}</span>`;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(6px)';
+        setTimeout(() => el.remove(), 300);
+      }, 2800);
+    }
+
+    // =========================================================================
+    // NAVIGATION PAR ONGLETS
+    // =========================================================================
+    function switchTab(tabName) {
+      const tabs = ['dashboard', 'daily', 'plan', 'synthesis'];
+      tabs.forEach(t => {
+        const panel = document.getElementById(`tab-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (t === tabName) {
+          panel.classList.add('active');
+          btn.classList.add('active');
+        } else {
+          panel.classList.remove('active');
+          btn.classList.remove('active');
+        }
+      });
+
+      if (tabName === 'dashboard') updateDashboard();
+      if (tabName === 'daily') renderDailyView();
+      if (tabName === 'plan') renderPlanView();
+    }
+
+    // =========================================================================
+    // ONGLET 2 : SUIVI QUOTIDIEN & JOURNAL
+    // =========================================================================
+    function populateMonthJump() {
+      const select = document.getElementById('month-jump-select');
+      const months = [
+        { val: '2026-11-19', label: 'Novembre 2026' },
+        { val: '2026-12-01', label: 'Décembre 2026' },
+        { val: '2027-01-01', label: 'Janvier 2027' },
+        { val: '2027-02-01', label: 'Février 2027' },
+        { val: '2027-03-01', label: 'Mars 2027' },
+        { val: '2027-04-01', label: 'Avril 2027' },
+        { val: '2027-05-01', label: 'Mai 2027' },
+        { val: '2027-06-01', label: 'Juin 2027' },
+        { val: '2027-07-01', label: 'Juillet 2027' },
+        { val: '2027-08-01', label: 'Août 2027' },
+        { val: '2027-09-01', label: 'Septembre 2027' },
+        { val: '2027-10-01', label: 'Octobre 2027' },
+        { val: '2027-11-01', label: 'Novembre 2027' },
+        { val: '2027-12-01', label: 'Décembre 2027' }
+      ];
+      months.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = m.val;
+        opt.textContent = m.label;
+        select.appendChild(opt);
+      });
+    }
+
+    function selectDate(isoStr) {
+      if (!isoStr) return;
+      if (isoStr < START_DATE_STR) isoStr = START_DATE_STR;
+      if (isoStr > END_DATE_STR) isoStr = END_DATE_STR;
+      selectedDate = isoStr;
+      renderDailyView();
+    }
+
+    function changeDateBy(delta) {
+      const idx = allDatesList.indexOf(selectedDate);
+      if (idx === -1) return;
+      const newIdx = Math.max(0, Math.min(allDatesList.length - 1, idx + delta));
+      selectedDate = allDatesList[newIdx];
+      renderDailyView();
+    }
+
+    function goToToday() {
+      const todayIso = new Date().toISOString().split('T')[0];
+      selectedDate = (todayIso >= START_DATE_STR && todayIso <= END_DATE_STR) ? todayIso : START_DATE_STR;
+      renderDailyView();
+    }
+
+    function jumpToMonth(val) {
+      if (val) {
+        selectDate(val);
+        document.getElementById('month-jump-select').value = '';
+      }
+    }
+
+    function toggleDailyAction(actionId) {
+      const day = getDayData(selectedDate);
+      day.actions[actionId] = !day.actions[actionId];
+      saveState();
+      renderDailyView();
+    }
+
+    function toggleAllDailyActions(stateVal) {
+      const day = getDayData(selectedDate);
+      DAILY_ACTIONS.forEach(a => day.actions[a.id] = stateVal);
+      saveState();
+      renderDailyView();
+      showToast(stateVal ? 'Journée validée à 100 % (12/12) !' : 'Cases du jour réinitialisées.');
+    }
+
+    function saveJournalField(fieldKey, val) {
+      const day = getDayData(selectedDate);
+      day.journal[fieldKey] = val;
+      saveState();
+    }
+
+    function renderDailyView() {
+      document.getElementById('daily-date-picker').value = selectedDate;
+      const dayIdx = allDatesList.indexOf(selectedDate) + 1;
+      const formatted = formatFrenchDate(selectedDate);
+      document.getElementById('daily-date-human').textContent =
+        `${formatted.charAt(0).toUpperCase() + formatted.slice(1)} — Jour ${dayIdx} / 408`;
+
+      const dayData = getDayData(selectedDate);
+      const score = getDayScore(selectedDate);
+      const pct = Math.round((score / 12) * 100);
+
+      // Mise à jour jauge circulaire SVG (circonférence = 2 * PI * 28 = 175.93)
+      const circumference = 175.93;
+      const offset = circumference - (pct / 100) * circumference;
+      document.getElementById('daily-gauge-circle').style.strokeDashoffset = offset;
+      document.getElementById('daily-gauge-pct').textContent = `${pct}%`;
+      document.getElementById('daily-score-count').textContent = `${score} / 12`;
+
+      const badge = document.getElementById('daily-status-badge');
+      badge.className = 'status-pill';
+      if (score === 12) {
+        badge.textContent = '100% Parfait';
+        badge.classList.add('perfect');
+      } else if (score >= 8) {
+        badge.textContent = 'Excellent';
+        badge.classList.add('good');
+      } else if (score >= 1) {
+        badge.textContent = 'En cours';
+        badge.classList.add('good');
+      } else {
+        badge.textContent = 'À faire';
+      }
+
+      // Génération des 12 cases cliquables
+      const listEl = document.getElementById('daily-actions-list');
+      listEl.innerHTML = '';
+
+      DAILY_ACTIONS.forEach((act, idx) => {
+        const isChecked = !!dayData.actions[act.id];
+        const card = document.createElement('div');
+        card.className = `action-check-card ${isChecked ? 'checked' : ''}`;
+        card.onclick = () => toggleDailyAction(act.id);
+
+        card.innerHTML = `
+          <div class="custom-checkbox">
+            ${isChecked ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+          </div>
+          <div style="flex: 1; min-width: 0;">
+            <div class="action-title-row">
+              <div class="action-title-text">
+                <span class="action-num">${String(idx + 1).padStart(2, '0')}.</span>${act.title}
+              </div>
+              <span class="action-tag">${act.tag}</span>
+            </div>
+            <div class="action-desc-text">${act.desc}</div>
+          </div>
+        `;
+        listEl.appendChild(card);
+      });
+
+      // Mise à jour des 4 champs d'écriture
+      document.getElementById('journal-morning').value = dayData.journal.morning || '';
+      document.getElementById('journal-cap').value = dayData.journal.cap || '';
+      document.getElementById('journal-evening1').value = dayData.journal.evening1 || '';
+      document.getElementById('journal-evening2').value = dayData.journal.evening2 || '';
+    }
+
+    // =========================================================================
+    // ONGLET 3 : PLAN D'ACTION & CAP À 1 AN
+    // =========================================================================
+    function renderPlanView() {
+      const container = document.getElementById('plan-items-container');
+      container.innerHTML = '';
+      let doneCount = 0;
+
+      PLAN_SECTIONS.forEach((sec, idx) => {
+        if (!appState.plan[sec.id]) appState.plan[sec.id] = { checked: false, text: '' };
+        const item = appState.plan[sec.id];
+        if (item.checked) doneCount++;
+
+        const card = document.createElement('div');
+        card.className = item.checked ? 'lux-card-gold' : 'lux-card';
+        card.innerHTML = `
+          <div class="plan-card-header">
+            <div>
+              <div class="eyebrow">${sec.pillar}</div>
+              <div class="plan-card-title">${idx + 1}. ${sec.title}</div>
+            </div>
+            <button type="button" class="btn ${item.checked ? 'btn-gold' : 'btn-outline-cyan'}" onclick="togglePlanCheck('${sec.id}')">
+              ${item.checked ? '✓ Défini' : 'Valider'}
+            </button>
+          </div>
+          <div class="gold-line-sm"></div>
+          <textarea class="lux-textarea" rows="3" oninput="savePlanText('${sec.id}', this.value)" placeholder="${sec.placeholder}">${item.text || ''}</textarea>
+        `;
+        container.appendChild(card);
+      });
+
+      document.getElementById('plan-completion-badge').textContent = `${doneCount} / ${PLAN_SECTIONS.length}`;
+    }
+
+    function togglePlanCheck(planId) {
+      if (!appState.plan[planId]) appState.plan[planId] = { checked: false, text: '' };
+      appState.plan[planId].checked = !appState.plan[planId].checked;
+      saveState();
+      renderPlanView();
+      updateDashboardCapPreview();
+    }
+
+    function savePlanText(planId, val) {
+      if (!appState.plan[planId]) appState.plan[planId] = { checked: false, text: '' };
+      appState.plan[planId].text = val;
+      saveState();
+      if (planId === 'p4') updateDashboardCapPreview();
+    }
+
+    function updateDashboardCapPreview() {
+      const capText = appState.plan['p4']?.text?.trim();
+      const el = document.getElementById('dashboard-cap-preview');
+      el.textContent = capText
+        ? `« ${capText} »`
+        : '« Définissez votre destination concrète à 1 an dans l’onglet Plan d’Action pour l’afficher ici en permanence. »';
+    }
+
+    // =========================================================================
+    // ONGLET 4 : LES 10 PILIERS
+    // =========================================================================
+    function renderPillars() {
+      const grid = document.getElementById('pillars-grid');
+      grid.innerHTML = '';
+      TEN_PILLARS.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'lux-card';
+        card.innerHTML = `
+          <div class="pillar-header">
+            <div class="pillar-badge">${p.num}</div>
+            <h3 class="pillar-title">${p.title}</h3>
+          </div>
+          <div class="gold-line-sm"></div>
+          <p class="pillar-body"><strong style="color: var(--cyan-light);">Principe :</strong> ${p.principle}</p>
+          <div class="pillar-actions"><strong style="color: var(--gold-light);">Actions clés :</strong> ${p.actions}</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // =========================================================================
+    // ONGLET 1 : TABLEAU DE BORD, KPIs, HEATMAP & GRAPHIQUE SVG NATIF
+    // =========================================================================
+    function updateDashboard() {
+      updateDashboardCapPreview();
+
+      let activeDays = 0;
+      let totalScoreOnActive = 0;
+      let perfectDays = 0;
+      let runningStreak = 0;
+      let bestStreak = 0;
+      let latestActiveStreak = 0;
+      let totalHours = 0;
+
+      const actionTotals = {};
+      DAILY_ACTIONS.forEach(a => actionTotals[a.id] = 0);
+
+      const monthlyStats = {};
+
+      allDatesList.forEach(iso => {
+        const ym = iso.slice(0, 7);
+        if (!monthlyStats[ym]) monthlyStats[ym] = { sumScore: 0, activeCount: 0 };
+
+        const score = getDayScore(iso);
+        if (score >= 1) {
+          activeDays++;
+          totalScoreOnActive += score;
+          monthlyStats[ym].sumScore += score;
+          monthlyStats[ym].activeCount++;
+          totalHours += (score / 12);
+
+          const dayObj = appState.days[iso];
+          DAILY_ACTIONS.forEach(a => {
+            if (dayObj?.actions?.[a.id]) actionTotals[a.id]++;
+          });
+        }
+
+        if (score === 12) perfectDays++;
+
+        if (score >= 6) {
+          runningStreak++;
+          if (runningStreak > bestStreak) bestStreak = runningStreak;
+          latestActiveStreak = runningStreak;
+        } else {
+          if (score > 0) latestActiveStreak = 0;
+          runningStreak = 0;
+        }
+      });
+
+      const globalRate = activeDays > 0 ? ((totalScoreOnActive / (activeDays * 12)) * 100) : 0;
+
+      document.getElementById('kpi-active-days').textContent = activeDays;
+      document.getElementById('kpi-global-rate').textContent = `${globalRate.toFixed(1)}%`;
+      document.getElementById('kpi-perfect-days').textContent = perfectDays;
+      document.getElementById('kpi-best-streak').textContent = `${bestStreak} j`;
+      document.getElementById('kpi-current-streak').textContent = `${latestActiveStreak} j`;
+      document.getElementById('kpi-hours').textContent = `${totalHours.toFixed(1)} h`;
+
+      // Rendu Heatmap 408 jours
+      const heatmapEl = document.getElementById('heatmap-grid');
+      heatmapEl.innerHTML = '';
+      allDatesList.forEach(iso => {
+        const score = getDayScore(iso);
+        const cell = document.createElement('div');
+        let cls = 'heat-0';
+        if (score === 12) cls = 'heat-4';
+        else if (score >= 8) cls = 'heat-3';
+        else if (score >= 4) cls = 'heat-2';
+        else if (score >= 1) cls = 'heat-1';
+
+        cell.className = `heat-cell ${cls}`;
+        cell.title = `${formatFrenchDate(iso)} : ${score}/12`;
+        cell.onclick = () => {
+          selectedDate = iso;
+          switchTab('daily');
+        };
+        heatmapEl.appendChild(cell);
+      });
+
+      // Rendu Barres horizontales des 12 actions
+      const breakdownEl = document.getElementById('actions-breakdown');
+      breakdownEl.innerHTML = '';
+      DAILY_ACTIONS.forEach((act, idx) => {
+        const count = actionTotals[act.id];
+        const pct = activeDays > 0 ? Math.round((count / activeDays) * 100) : 0;
+        const row = document.createElement('div');
+        row.className = 'action-stat-row';
+        row.innerHTML = `
+          <div class="action-stat-top">
+            <div class="action-stat-name"><span>${String(idx + 1).padStart(2, '0')}.</span>${act.title}</div>
+            <div class="action-stat-val">${pct}% (${count}j)</div>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: ${pct}%;"></div>
+          </div>
+        `;
+        breakdownEl.appendChild(row);
+      });
+
+      // Rendu Graphique Linéaire SVG Natif (14 mois)
+      renderMonthlySVGChart(monthlyStats);
+    }
+
+    function renderMonthlySVGChart(monthlyStats) {
+      const svg = document.getElementById('monthly-svg-chart');
+      const months = [
+        { key: '2026-11', label: 'Nov 26' }, { key: '2026-12', label: 'Déc 26' },
+        { key: '2027-01', label: 'Jan 27' }, { key: '2027-02', label: 'Fév 27' },
+        { key: '2027-03', label: 'Mar 27' }, { key: '2027-04', label: 'Avr 27' },
+        { key: '2027-05', label: 'Mai 27' }, { key: '2027-06', label: 'Juin 27' },
+        { key: '2027-07', label: 'Juil 27' }, { key: '2027-08', label: 'Août 27' },
+        { key: '2027-09', label: 'Sep 27' }, { key: '2027-10', label: 'Oct 27' },
+        { key: '2027-11', label: 'Nov 27' }, { key: '2027-12', label: 'Déc 27' }
+      ];
+
+      const padL = 42, padR = 18, padT = 20, padB = 38;
+      const W = 640, H = 250;
+      const plotW = W - padL - padR;
+      const plotH = H - padT - padB;
+
+      const values = months.map(m => {
+        const st = monthlyStats[m.key];
+        if (!st || st.activeCount === 0) return 0;
+        return (st.sumScore / (st.activeCount * 12)) * 100;
+      });
+
+      const points = values.map((val, i) => {
+        const x = padL + (i / (months.length - 1)) * plotW;
+        const y = padT + plotH - (val / 100) * plotH;
+        return { x, y, val, label: months[i].label };
+      });
+
+      const linePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
+      const areaPath = `${linePath} L ${points[points.length - 1].x.toFixed(1)} ${(padT + plotH).toFixed(1)} L ${points[0].x.toFixed(1)} ${(padT + plotH).toFixed(1)} Z`;
+
+      let gridLines = '';
+      [0, 25, 50, 75, 100].forEach(pct => {
+        const y = padT + plotH - (pct / 100) * plotH;
+        gridLines += `
+          <line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="rgba(56, 189, 248, 0.14)" stroke-width="1" />
+          <text x="${padL - 8}" y="${y + 4}" fill="#94A3B8" font-size="10" text-anchor="end">${pct}%</text>
+        `;
+      });
+
+      let xLabels = '';
+      let dots = '';
+      points.forEach((p, idx) => {
+        xLabels += `<text x="${p.x}" y="${H - 12}" fill="#CBD5E1" font-size="9.5" text-anchor="middle">${p.label}</text>`;
+        dots += `
+          <g>
+            <circle cx="${p.x}" cy="${p.y}" r="4.2" fill="#38BDF8" stroke="#FFFFFF" stroke-width="1.5">
+              <title>${p.label} : ${p.val.toFixed(1)}%</title>
+            </circle>
+            ${p.val > 0 ? `<text x="${p.x}" y="${p.y - 8}" fill="#F5DF9E" font-size="9" font-weight="700" text-anchor="middle">${Math.round(p.val)}%</text>` : ''}
+          </g>
+        `;
+      });
+
+      svg.innerHTML = `
+        <defs>
+          <linearGradient id="chartAreaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.35" />
+            <stop offset="100%" stop-color="#071F37" stop-opacity="0.0" />
+          </linearGradient>
+        </defs>
+        ${gridLines}
+        <path d="${areaPath}" fill="url(#chartAreaGrad)" />
+        <path d="${linePath}" fill="none" stroke="#E6C068" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+        ${xLabels}
+        ${dots}
+      `;
+    }
+
+    // =========================================================================
+    // EXPORT CSV & SAUVEGARDE / RESTAURATION JSON
+    // =========================================================================
+    function exportCSV() {
+      const headers = [
+        'Date', 'Jour_Num', 'Score_Sur_12', 'Taux_Pourcent',
+        ...DAILY_ACTIONS.map(a => a.title.replace(/;/g, ',')),
+        'Matin_Gratitudes_Intention', 'Cap_Action_Cle', 'Bilan_Soir_Acquis', 'Bilan_Soir_Ajustement'
+      ];
+
+      const rows = [headers.join(';')];
+      allDatesList.forEach((iso, idx) => {
+        const day = appState.days[iso] || { actions: {}, journal: {} };
+        const score = getDayScore(iso);
+        const pct = Math.round((score / 12) * 100) + '%';
+        const actionCols = DAILY_ACTIONS.map(a => (day.actions && day.actions[a.id]) ? 'OUI' : 'NON');
+        const clean = (t) => `"${(t || '').replace(/"/g, '""').replace(/\n/g, ' ')}"`;
+
+        rows.push([
+          iso, idx + 1, score, pct,
+          ...actionCols,
+          clean(day.journal?.morning),
+          clean(day.journal?.cap),
+          clean(day.journal?.evening1),
+          clean(day.journal?.evening2)
+        ].join(';'));
+      });
+
+      const blob = new Blob(['\uFEFF' + rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Suivi_Regle_60_Minutes_2026_2027.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Export CSV généré avec succès.');
+    }
+
+    function exportJSON() {
+      const jsonStr = JSON.stringify(appState, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Sauvegarde_Regle_60_Minutes_${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Sauvegarde JSON téléchargée.');
+    }
+
+    function copyJSONToClipboard() {
+      const jsonStr = JSON.stringify(appState);
+      const area = document.getElementById('json-paste-area');
+      area.value = jsonStr;
+      area.select();
+      try {
+        document.execCommand('copy');
+        showToast('Sauvegarde JSON copiée dans le presse-papiers !');
+      } catch (e) {
+        showToast('Sélectionnez et copiez le texte dans le champ ci-dessous.');
+      }
+    }
+
+    function restoreJSONFromText() {
+      const raw = document.getElementById('json-paste-area').value.trim();
+      if (!raw) {
+        showToast('Veuillez d’abord coller un code JSON valide.');
+        return;
+      }
+      try {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object' && parsed.days) {
+          appState.days = parsed.days || {};
+          appState.plan = parsed.plan || {};
+          saveState();
+          updateDashboard();
+          renderDailyView();
+          renderPlanView();
+          showToast('Données restaurées avec succès !');
+        } else {
+          showToast('Format JSON non reconnu.');
+        }
+      } catch (e) {
+        showToast('Erreur de lecture : JSON invalide.');
+      }
+    }
+
+    function importJSONFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed && typeof parsed === 'object' && parsed.days) {
+            appState.days = parsed.days || {};
+            appState.plan = parsed.plan || {};
+            saveState();
+            updateDashboard();
+            renderDailyView();
+            renderPlanView();
+            showToast('Fichier JSON importé avec succès !');
+          } else {
+            showToast('Fichier JSON invalide.');
+          }
+        } catch (err) {
+          showToast('Erreur lors de la lecture du fichier.');
+        }
+        event.target.value = '';
+      };
+      reader.readAsText(file);
+    }
+
+    // =========================================================================
+    // INITIALISATION
+    // =========================================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      allDatesList = generateAllDates();
+      loadState();
+      populateMonthJump();
+      renderPillars();
+
+      const todayIso = new Date().toISOString().split('T')[0];
+      selectedDate = (todayIso >= START_DATE_STR && todayIso <= END_DATE_STR) ? todayIso : START_DATE_STR;
+
+      switchTab('dashboard');
+    });
+  </script>
+</body>
+</html>
